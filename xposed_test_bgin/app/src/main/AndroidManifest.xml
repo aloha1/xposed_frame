@@ -15,7 +15,7 @@
             android:value="true"/>
         <meta-data
             android:name="xposeddescription"
-            android:value="hello xposed"/>
+            android:value="xpose for wiki"/>
         <meta-data
             android:name="xposedminversion"
             android:value="82"/>
