@@ -30,31 +30,10 @@ public class XModule extends XC_MethodHook implements IXposedHookLoadPackage {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         currentPackageName = loadPackageParam.packageName;
 
-
-//        if (!currentPackageName.equals("com.android.systemui"))
-//            return;
-//        Log.d(TAG, "Hooking DefaultHTTPClient for: " + currentPackageName);
-//        findAndHookConstructor(OkHttpClient.class, new XC_MethodHook() {
-//            @Override
-//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                XposedBridge.log("load app:"+loadPackageParam.packageName);
-//                setObjectField(param.thisObject, "defaultParams", null);
-//
-//            }
-//        });
-
         HttpHook.initAllHooks(loadPackageParam);
 
-//        Log.d(TAG, "Hooking HttpsURLConnection.setDefaultHostnameVerifier for: " + currentPackageName);
-//        findAndHookMethod("javax.net.ssl.HttpsURLConnection", loadPackageParam.classLoader, "setDefaultHostnameVerifier",
-//                HostnameVerifier.class, new XC_MethodReplacement() {
-//                    @Override
-//                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-//                        XposedBridge.log("load app:"+loadPackageParam.packageName);
-//                        return null;
-//                    }
-//                });
     }
+
     public static void logError(Error e){
         XposedBridge.log(XModule.ERROR + " " + e.getMessage());
     }

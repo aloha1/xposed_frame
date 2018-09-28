@@ -1,5 +1,7 @@
 package com.example.yunwen.myapplication;
 
+import android.app.AndroidAppHelper;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.widget.TextView;
@@ -39,23 +41,23 @@ public class HttpHook extends XC_MethodHook {
 
     public static void initAllHooks(final XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
-//        try {
-//            final Class<?> httpUrlConnection = findClass("java.net.HttpURLConnection", loadPackageParam.classLoader);
-//            hookAllConstructors(httpUrlConnection, new XC_MethodHook() {
-//
-//                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//
-//                    if (param.args.length != 1 || param.args[0].getClass() != URL.class) {
-//                        return;
-//                    }
-//
-//                    XposedBridge.log(TAG + "HttpURLConnection: " + param.args[0] + "");
-//                }
-//            });
-//        } catch (Error e) {
-//            XModule.logError(e);
-//        }
-//
+        try {
+            final Class<?> httpUrlConnection = findClass("java.net.HttpURLConnection", loadPackageParam.classLoader);
+            hookAllConstructors(httpUrlConnection, new XC_MethodHook() {
+
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                    if (param.args.length != 1 || param.args[0].getClass() != URL.class) {
+                        return;
+                    }
+
+                    XposedBridge.log(TAG + "HttpURLConnection: " + param.args[0] + "");
+                }
+            });
+        } catch (Error e) {
+            XModule.logError(e);
+        }
+
 
         XC_MethodHook ResponseHook = new XC_MethodHook() {
 
@@ -80,8 +82,8 @@ public class HttpHook extends XC_MethodHook {
                     XposedBridge.log(TAG + "RESPONSE: method=" + urlConn.getRequestMethod() + " " +
                             "URL=" + urlConn.getURL().toString() + " " +
                             "Params=" + sb.toString());
+                    Context context = AndroidAppHelper.currentApplication();
                 }
-
             }
         };
 
@@ -108,27 +110,17 @@ public class HttpHook extends XC_MethodHook {
         try {
             final Class<?> okHttpClient = findClass("com.android.okhttp.Request", loadPackageParam.classLoader);
             if(okHttpClient != null) {
-//                findAndHookMethod(okHttpClient, "open", URI.class, new XC_MethodHook() {
-//                    @Override
-//                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//
-//                        URI uri = null;
-//                        if (param.args[0] != null)
-//                            uri = (URI) param.args[0];
-//                        XposedBridge.log(TAG + "OkHttpClient URI: " + uri.toString() + "");
-//                    }
-//                });
-
-                findAndHookMethod(okHttpClient, "url", URL.class, new XC_MethodHook() {
+                findAndHookMethod(okHttpClient, "open", URI.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                        URL url = null;
+                        URI uri = null;
                         if (param.args[0] != null)
-                            url = (URL) param.args[0];
-                        XposedBridge.log(TAG + "Request URL: " + url.toString() + "");
+                            uri = (URI) param.args[0];
+                        XposedBridge.log(TAG + "OkHttpClient URI: " + uri.toString() + "");
                     }
                 });
+
             }
         } catch (Error e) {
             XModule.logError(e);
