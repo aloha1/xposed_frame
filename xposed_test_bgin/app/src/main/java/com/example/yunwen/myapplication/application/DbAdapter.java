@@ -1,8 +1,7 @@
-package com.example.yunwen.myapplication;
+package com.example.yunwen.myapplication.application;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.yunwen.myapplication.dao.XModuleLog;
-import com.example.yunwen.myapplication.dao.XModuleLogRepo;
 
+import com.example.yunwen.myapplication.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +26,6 @@ public class DbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
-    private String[] mTitles;
     ArrayList<HashMap<String, String>> data;
 
 
@@ -47,8 +43,6 @@ public class DbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         try {
-            Log.d("DbFragment", data.get(position).get("id"));
-            Log.d("DbFragment", data.get(position).get("topic"));
             ((TextViewHolder) holder).mTextView.setText(data.get(position).get("topic"));
             final String dataContent = ((TextViewHolder) holder).mTextView.getText().toString();
         } catch (Exception e) {
@@ -66,7 +60,7 @@ public class DbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public static class TextViewHolder extends RecyclerView.ViewHolder {
-        // @Bind(R.id.text_view)
+
         TextView mTextView;
         ImageView mImageView;
 

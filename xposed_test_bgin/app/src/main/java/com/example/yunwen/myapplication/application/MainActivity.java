@@ -1,4 +1,4 @@
-package com.example.yunwen.myapplication;
+package com.example.yunwen.myapplication.application;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.example.yunwen.myapplication.R;
 import com.example.yunwen.myapplication.dao.XModuleLog;
 import com.example.yunwen.myapplication.dao.XModuleLogRepo;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initRecyclerView(ArrayList<HashMap<String, String>> algorithmList){
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_db);
+        mRecyclerView = findViewById(R.id.recycler_db);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         dbAdapter = new DbAdapter(this,algorithmList);
         mRecyclerView.setAdapter(dbAdapter);

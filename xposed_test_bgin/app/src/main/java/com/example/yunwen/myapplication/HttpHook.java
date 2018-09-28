@@ -2,11 +2,12 @@ package com.example.yunwen.myapplication;
 
 import android.app.AndroidAppHelper;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.DataOutputStream;
+import com.example.yunwen.myapplication.dao.XModuleLog;
+import com.example.yunwen.myapplication.dao.XModuleLogRepo;
+
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,13 +24,11 @@ import javax.net.ssl.X509TrustManager;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 /**
  * Created by yunwe on 9/25/2018.
@@ -82,7 +81,12 @@ public class HttpHook extends XC_MethodHook {
                     XposedBridge.log(TAG + "RESPONSE: method=" + urlConn.getRequestMethod() + " " +
                             "URL=" + urlConn.getURL().toString() + " " +
                             "Params=" + sb.toString());
-                    Context context = AndroidAppHelper.currentApplication();
+                    try {
+                        Context context = AndroidAppHelper.currentApplication();
+                        addToFavorite(context, urlConn.getURL().toString());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -158,9 +162,9 @@ public class HttpHook extends XC_MethodHook {
                 });
     }
 
-    private URI rewriteUriToRunscopeUri(URI sourceUrl, String runscopeSlug, String methodHint) throws URISyntaxException {
+    private URI rewriteUriToRunscopeUri(URI sourceUrl, String token, String methodHint) throws URISyntaxException {
         String host = sourceUrl.getHost();
-        String newHost = host.replaceAll("-", "--").replaceAll("\\.", "-") + String.format("-%s.runscope.net", runscopeSlug);
+        String newHost = host.replaceAll("-", "--").replaceAll("\\.", "-") + String.format("-%s.runscope.net", token);
         String newUrl = sourceUrl.toString().replace(host, newHost);
 
         if (host.contains("runscope.net")) {
@@ -169,5 +173,28 @@ public class HttpHook extends XC_MethodHook {
 
         XposedBridge.log(String.format("About to rewrite '%s' => '%s (%s)'", sourceUrl.toString(), newUrl, methodHint));
         return new URI(newUrl);
+    }
+
+    private static void addToFavorite(Context context, String data) {
+        int dbID = 0;
+        XModuleLogRepo repo = new XModuleLogRepo(context);
+
+        XModuleLog xModuleLog = repo.getColumnByTopic(data);
+        try {
+            if (xModuleLog.topic.equals(data)) {
+                repo.update(xModuleLog);
+                Toast.makeText(context, "Content Record updated", Toast.LENGTH_SHORT).show();
+            } else {
+
+            }
+        } catch (Exception e) {
+            xModuleLog.content = "";
+            xModuleLog.topic = data;
+            xModuleLog.dbId = dbID;
+            dbID = repo.insert(xModuleLog);
+            Toast.makeText(context, "Add to Favorite Menu", Toast.LENGTH_SHORT).show();
+
+            e.printStackTrace();
+        }
     }
 }
