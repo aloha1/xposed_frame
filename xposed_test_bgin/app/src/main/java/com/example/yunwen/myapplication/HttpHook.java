@@ -40,24 +40,6 @@ public class HttpHook extends XC_MethodHook {
 
     public static void initAllHooks(final XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
-        try {
-            final Class<?> httpUrlConnection = findClass("java.net.HttpURLConnection", loadPackageParam.classLoader);
-            hookAllConstructors(httpUrlConnection, new XC_MethodHook() {
-
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                    if (param.args.length != 1 || param.args[0].getClass() != URL.class) {
-                        return;
-                    }
-
-                    XposedBridge.log(TAG + "HttpURLConnection: " + param.args[0] + "");
-                }
-            });
-        } catch (Error e) {
-            XModule.logError(e);
-        }
-
-
         XC_MethodHook ResponseHook = new XC_MethodHook() {
 
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -81,35 +63,9 @@ public class HttpHook extends XC_MethodHook {
                     XposedBridge.log(TAG + "RESPONSE: method=" + urlConn.getRequestMethod() + " " +
                             "URL=" + urlConn.getURL().toString() + " " +
                             "Params=" + sb.toString());
-                    try {
-                        Context context = AndroidAppHelper.currentApplication();
-                        addToFavorite(context, urlConn.getURL().toString());
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
                 }
             }
         };
-
-
-        try {
-            final Class<?> okHttpClient = findClass("com.squareup.okhttp3.OkHttpClient", loadPackageParam.classLoader);
-            if(okHttpClient != null) {
-
-                findAndHookMethod(okHttpClient, "open", URL.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                        URL url = null;
-                        if (param.args[0] != null)
-                            url = (URL) param.args[0];
-                        XposedBridge.log(TAG + "OkHttpClient URL: " + url.toString() + "");
-                    }
-                });
-            }
-        } catch (Error e) {
-            XModule.logError(e);
-        }
 
         try {
             final Class<?> okHttpClient = findClass("com.android.okhttp.Request", loadPackageParam.classLoader);
@@ -117,7 +73,6 @@ public class HttpHook extends XC_MethodHook {
                 findAndHookMethod(okHttpClient, "open", URI.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
                         URI uri = null;
                         if (param.args[0] != null)
                             uri = (URI) param.args[0];
@@ -133,7 +88,6 @@ public class HttpHook extends XC_MethodHook {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 findAndHookMethod("libcore.net.http.HttpURLConnectionImpl", loadPackageParam.classLoader, "getOutputStream", ResponseHook);
             } else {
-                //com.squareup.okhttp.internal.http.HttpURLConnectionImpl
                 final Class<?> httpURLConnectionImpl = findClass("com.android.okhttp.internal.http.HttpURLConnectionImpl", loadPackageParam.classLoader);
                 if(httpURLConnectionImpl != null) {
                     findAndHookMethod("com.android.okhttp.internal.http.HttpURLConnectionImpl", loadPackageParam.classLoader, "getOutputStream", ResponseHook);
