@@ -21,7 +21,7 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
  */
 public class XModule extends XC_MethodHook implements IXposedHookLoadPackage {
 
-    private static final String TAG = "XModule";
+    private static final String TAG = "XModuleLog";
     private
     static final String ERROR = "XModule_Error";
     String currentPackageName = "";

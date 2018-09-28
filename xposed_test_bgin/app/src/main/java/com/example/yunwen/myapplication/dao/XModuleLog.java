@@ -5,9 +5,9 @@ package com.example.yunwen.myapplication.dao;
  */
 
 //this is the database for storing favorite list
-public class XModule {
+public class XModuleLog {
     //table name
-    public static final String TABLE="XModule";
+    public static final String TABLE="XModuleLog";
     //table id
     public static final String KEY_ID="id";
     public static final String KEY_topic="topic";
