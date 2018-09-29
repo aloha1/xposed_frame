@@ -14,7 +14,7 @@ Requirements: Xposed Framework, Xposed Installer
 How to uninstall
     adb uninstall com.example.yunwen.myapplication
 
-# Why you left Activity
+# Why I left Activity in the module
 To better inject the Xposed Module without searching in the framework;
 Attempt to output the Log to the sqlite in this application. Would make progress if given more time.
 
