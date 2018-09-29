@@ -14,10 +14,12 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
  */
 public class UriHook extends XC_MethodHook {
 
+    // Log TAG of the Uri Hook Module
     public static final String TAG = "UriHook:";
 
     public static void initAllHooks(final XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
+        // Uri Hook Method
         findAndHookMethod(Uri.class, "parse", String.class, new XC_MethodHook() {
 
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {

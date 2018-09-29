@@ -1,6 +1,5 @@
 package com.example.yunwen.myapplication.application;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.example.yunwen.myapplication.R;
 import java.util.ArrayList;

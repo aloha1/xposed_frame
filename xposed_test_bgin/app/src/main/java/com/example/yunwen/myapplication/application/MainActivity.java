@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,6 +16,10 @@ import com.example.yunwen.myapplication.dao.XModuleLogRepo;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * MainActivity is the process of
+ * Configurator and Executor of sub-modules
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnLog;
@@ -36,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v == v.findViewById(R.id.btn_log)){
             XModuleLogRepo repo = new XModuleLogRepo(v.getContext());
             XModuleLog xModuleLog = new XModuleLog();
-            Log.d("MainActivity","The id is: " + _algorithm_id);
             xModuleLog = repo.getColumnById(_algorithm_id);
             ArrayList<HashMap<String, String>> algorithmList =  repo.getAlgorithmList();
-            if(algorithmList.size()!=0) {//Show Db list
+            //Show Db list
+            if(algorithmList.size()!=0) {
                 initRecyclerView(algorithmList);
             }else{
                 Toast.makeText(v.getContext(), "No Content!", Toast.LENGTH_SHORT).show();
