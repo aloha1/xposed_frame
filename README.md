@@ -1,5 +1,5 @@
 # xposed_frame
-This is a Xposed Module for Xposed Framework
+This is a Http hook Module for Xposed Framework
 
 # Features
 With this module, we can get information about the networking application's behavior:
