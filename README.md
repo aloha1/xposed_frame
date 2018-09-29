@@ -19,7 +19,8 @@ To better inject the Xposed Module without searching in the framework;
 Attempt to output the Log to the sqlite in this application. Would make progress if given more time.
 
 # Given more time, what would you have worked on or what you change in your code/project? 
-Catergorize the Log information
+Catergorize the Log information;
+Doing reverse engineering for the wiki app to better understand its structure;
 Work with SSL pinning and organize the Hook methods for Managment of the network; 
 Make use of the application to navigate to the app (wiki for example) which the user would like to monitor/hook.
 
