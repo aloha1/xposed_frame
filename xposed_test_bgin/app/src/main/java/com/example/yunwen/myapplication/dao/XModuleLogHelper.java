@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by Yunwen on 2/15/2016.
- */
+ * this is the database helper for storing XModule log list
+ * */
 public class XModuleLogHelper extends SQLiteOpenHelper {
     //Db version
     private static final int DATABASE_VERSION = 1;

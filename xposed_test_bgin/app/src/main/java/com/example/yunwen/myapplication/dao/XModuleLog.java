@@ -4,7 +4,7 @@ package com.example.yunwen.myapplication.dao;
  * Created by Yunwen on 2/15/2016.
  */
 
-//this is the database for storing favorite list
+//this is the database for storing XModule log list
 public class XModuleLog {
     //table name
     public static final String TABLE="XModuleLog";

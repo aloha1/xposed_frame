@@ -1,25 +1,10 @@
 package com.example.yunwen.myapplication;
 
-
-import android.content.Context;
 import android.os.Build;
-import android.widget.Toast;
-
-import com.example.yunwen.myapplication.dao.XModuleLog;
-import com.example.yunwen.myapplication.dao.XModuleLogRepo;
-
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -29,9 +14,8 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
 /**
- * Created by yunwe on 9/25/2018.
+ * HttpHook is the sub-Class for Xposed Http Hook method.
  */
-
 public class HttpHook extends XC_MethodHook {
 
     // Log TAG of the Http Hook Module
@@ -85,6 +69,8 @@ public class HttpHook extends XC_MethodHook {
         } catch (Error e) {
             XModule.logError(e);
         }
+
+        // OkHttp Request Hook Method for versions lower than Kitkat
         try {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 findAndHookMethod("libcore.net.http.HttpURLConnectionImpl", loadPackageParam.classLoader, "getOutputStream", ResponseHook);

@@ -12,6 +12,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * this is the database CRUD operation methods for storing XModule log list
+ * */
 public class XModuleLogRepo {
     private XModuleLogHelper XModuleLogHelper;
 

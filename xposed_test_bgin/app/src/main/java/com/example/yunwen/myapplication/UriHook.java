@@ -4,13 +4,12 @@ import android.net.Uri;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 /**
- * Created by yunwe on 9/25/2018.
+ * UriHook is the sub-Class for Xposed Misc Hook method.
  */
 public class UriHook extends XC_MethodHook {
 

@@ -26,7 +26,10 @@ public class DbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context mContext;
     ArrayList<HashMap<String, String>> data;
 
-
+    /**
+     * Constructs a data set by converting the HashMap data from the recyclerview
+     * @param  data: topic - content String from database Key - Value pair
+     */
     public DbAdapter(Context context, ArrayList<HashMap<String, String>> data) {
         this.data = data;
         mContext = context;
